@@ -1,0 +1,38 @@
+server:
+  port: ${http_server_port:8080}
+  tomcat:
+    connection-timeout: ${http_server_connection_timeout:60000}
+  error:
+    include-message: always
+  max-http-request-header-size: ${server_max_http_header_size:56KB}
+
+spring:
+  main:
+    web-application-type: SERVLET
+  application:
+    name: test
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    hikari:
+      connection-timeout: ${datasource_connection_timeout:30000}
+      idle-timeout: ${datasource_idle_timeout:600000}
+      max-lifetime: ${datasource_max_lifetime:1790000}
+      minimum-idle: ${datasource_minimum_idle:2}
+      maximum-pool-size: ${datasource_maximum_pool_size:10}
+      transaction-isolation: ${datasource_transaction_isolation:2}
+
+  liquibase:
+    change-log: classpath:db/changelog/index.xml
+  cloud:
+    discovery:
+      client:
+        composite-indicator:
+          enabled: false
+security:
+  jwt:
+    #    1 час
+    expiration-time: ${security_jwt_expiration_time:1000 * 60 * 60}
+    secret: ${security_jwt_expiration_secret:123456789}

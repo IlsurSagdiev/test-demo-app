@@ -1,0 +1,31 @@
+server:
+  port: ${http_server_port:8080}
+  tomcat:
+    connection-timeout: ${http_server_connection_timeout:60000}
+  error:
+    include-message: always
+  max-http-request-header-size: ${server_max_http_header_size:56KB}
+
+
+spring:
+  datasource:
+    password: ${datasource_password:postgres}
+    url: jdbc:postgresql://localhost:5432/test
+    username: ${datasource_username:postgres}
+  liquibase:
+    change-log: classpath:db/changelog/index.xml
+  kafka:
+    bootstrap-servers: localhost:29092
+    properties:
+      ssl:
+        enabled: false
+    consumer:
+      group-id: test-logging
+  jpa:
+    open-in-view: false
+    show-sql: false
+
+logging:
+  config: classpath:logback-spring-dev.xml
+  level:
+    root: ${logging_level_root:info}

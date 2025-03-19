@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="20250319090000_create_table_users" author="SagdievIA">
+        <createTable tableName="USERS">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(500)"/>
+            <column name="DATE_OF_BIRTH" type="DATE"/>
+            <column name="PASSWORD" type="VARCHAR(500)"/>
+        </createTable>
+        <createSequence sequenceName="seq_users_id"/>
+    </changeSet>
+
+    <changeSet id="20250319090000_create_table_account" author="SagdievIA">
+        <createTable tableName="ACCOUNT">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BALANCE" type="DECIMAL(19, 2)"/>
+        </createTable>
+        <createSequence sequenceName="seq_account_id"/>
+        <addForeignKeyConstraint baseTableName="ACCOUNT"
+                                 baseColumnNames="USER_ID"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_ACCOUNT_USERS"/>
+    </changeSet>
+
+    <changeSet id="20250319090000_create_table_email_data" author="SagdievIA">
+        <createTable tableName="EMAIL_DATA">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="EMAIL" type="VARCHAR(200)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="seq_email_data_id"/>
+        <addForeignKeyConstraint baseTableName="EMAIL_DATA"
+                                 baseColumnNames="USER_ID"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_EMAIL_DATA_USERS"/>
+    </changeSet>
+
+    <changeSet id="20250319090000_create_table_phone_data" author="SagdievIA">
+        <createTable tableName="PHONE_DATA">
+            <column name="ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="PHONE" type="VARCHAR(13)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="seq_phone_data_id"/>
+        <addForeignKeyConstraint baseTableName="PHONE_DATA"
+                                 baseColumnNames="USER_ID"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_PHONE_DATA_USERS"/>
+    </changeSet>
+
+</databaseChangeLog>
